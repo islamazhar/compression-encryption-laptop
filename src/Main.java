@@ -8,7 +8,7 @@
 
 import utilities.*;
 import compression.*;
-
+import chaotic.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,7 +21,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		///*
-		Huffman huffman = new Huffman();
+		chaoticHuffmanCompression huffman = new chaoticHuffmanCompression();
+	//	Huffman huffman = new Huffman();
 		String inputFileNamme = "test-data/2.txt";
 		String compressedFileName = "test-data/2.zip";
 		String decompressedFileName = "test-data/2.again.txt";

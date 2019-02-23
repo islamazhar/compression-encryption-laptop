@@ -74,7 +74,7 @@ public class Huffman {
 			huffmanEncoder.buildHuffmanTreeTable(pq.peek(), ""); 
 			// building the Huffman tree table from Huffman tree pq
 			double len2 = huffmanEncoder.len/8.00;
-			System.out.println("Compression ratio : "+len1/len2);
+			//System.out.println("Compression ratio : "+len1/len2);
 			bf.close();
 			// second pass on the input file
 			
@@ -114,27 +114,30 @@ public class Huffman {
 				list2.get(len).put(symbol.get(num), siz);
 				//System.out.println(num + " "+levelValue[num]);
 			}
-	//		/*
+			/*
 			for(int i=0;i<maxLevel;i++) {
 				System.out.println(HT.get(i).size());
 				//System.out.println(list.get(i));
 			}
-	//		*/
+			*/
 			
 		
 			map.clear();
 			map = new HashMap<Integer,Integer>();
 			
+			
+			long s = System.currentTimeMillis();
+			
 			while((ch = bf.read())!=-1) {
-				String sym = symbol.get(ch);
-				int l = sym.length();
-				RedBlackBST<Element, Integer> h = HT.get(l);
+				String sym = symbol.get(ch); // 1
+				int l = sym.length(); // 1
+				RedBlackBST<Element, Integer> h = HT.get(l); // 1
 				
 				if(!map.containsKey(ch)) {
 					map.put(ch,0);
 				}
 				//System.out.println(h.toString());
-				int pos = h.rank(new Element(map.get(ch),ch));
+				int pos = h.rank(new Element(map.get(ch),ch)); // log n
 				//pos = h.get(h.select(pos));
 				//System.out.println(ch + " "+map.get(ch) + " "+sym+" pos " + pos);
 				// find the index of a (a b c) then h.get(a) = 0 (index not the frequency)
@@ -155,6 +158,8 @@ public class Huffman {
 				map.put(ch, map.get(ch)+1);  // increase the weigth by 1
 				h.put(new Element(map.get(ch),ch),0);
 			}
+			long e = System.currentTimeMillis();
+			System.out.println("Our method Encoding Time = "+ (e-s));
 			
 			bos.close();
 			bf.close();
@@ -181,73 +186,10 @@ public class Huffman {
 			ex.printStackTrace();
 		}
 	}
-	public static double[] xcorr(double[] a, double[] b)
-    {
-        int len = a.length;
-        if(b.length > a.length)
-            len = b.length;
 
-        return xcorr(a, b, len-1);
-
-        // // reverse b in time
-        // double[] brev = new double[b.length];
-        // for(int x = 0; x < b.length; x++)
-        //     brev[x] = b[b.length-x-1];
-        // 
-        // return conv(a, brev);
-    }
-	public static double[] xcorr(double[] a, double[] b, int maxlag)
-    {
-        double[] y = new double[2*maxlag+1];
-        Arrays.fill(y, 0);
-        
-        for(int lag = b.length-1, idx = maxlag-b.length+1; 
-            lag > -a.length; lag--, idx++)
-        {
-            if(idx < 0)
-                continue;
-            
-            if(idx >= y.length)
-                break;
-
-            // where do the two signals overlap?
-            int start = 0;
-            // we can't start past the left end of b
-            if(lag < 0) 
-            {
-                //System.out.println("b");
-                start = -lag;
-            }
-
-            int end = a.length-1;
-            // we can't go past the right end of b
-            if(end > b.length-lag-1)
-            {
-                end = b.length-lag-1;
-                //System.out.println("a "+end);
-            }
-
-            //System.out.println("lag = " + lag +": "+ start+" to " + end+"   idx = "+idx);
-            for(int n = start; n <= end; n++)
-            {
-                //System.out.println("  bi = " + (lag+n) + ", ai = " + n); 
-                y[idx] += a[n]*b[lag+n];
-            }
-            //System.out.println(y[idx]);
-        }
-        return(y);
-    }
 	
-	public static void main(String[] args) {
-    		double[] a = {1,2,3,4,15};
-    		double[] b = {1,2,3,4,15};
-    		double[] y = xcorr(b, a,0);
-        	//System.out.println(y.toString());
+	//public static void main(String[] args) {
     		
-        	for(int i=0;i<y.length;i++){
-        		System.out.println(y[i]);
-        		//System.out.println(y[i]);
-        	}
-    }
+    //}
 
 }

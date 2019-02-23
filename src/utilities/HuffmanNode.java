@@ -19,4 +19,9 @@ public class HuffmanNode {
 			return false;
 		}
 	}
+	public void  swap() {
+		HuffmanNode t = left;
+		left = right;
+		right = t;
+	}
 } 
