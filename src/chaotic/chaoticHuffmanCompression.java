@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+
+import encryption.ECC;
+
 import java.util.List;
 
 
@@ -38,9 +41,12 @@ public class chaoticHuffmanCompression {
 		double alpha = 33.00;
 		double beta = 33.00;
 		int vm = 33;
-		Map<Integer, Integer> mapCopy = null;
+		//Map<Integer, Integer> mapCopy = null;
 		long total = 0;
+		byte[] encrypted = null;
+		ECC ecc = null;
 		public chaoticHuffmanCompression() {
+			ecc = new ECC();
 		}
 		
 		public long compress(String inputFileNamme, String compressedFileName) {
@@ -66,7 +72,9 @@ public class chaoticHuffmanCompression {
 				}
 				
 				HuffmanEncoder huffmanEncoder = new HuffmanEncoder(map);
-				mapCopy = new HashMap<Integer, Integer>(map);
+
+				encrypted = ecc.encryption(map.toString().getBytes());
+				//mapCopy = new HashMap<Integer, Integer>(map);
 				pq = huffmanEncoder.buildTree(); 
 				// pq is the original Huffman tree which is a priority queue
 				//pq.peek().encodedString = "";
@@ -164,7 +172,8 @@ public class chaoticHuffmanCompression {
 				InputStream is = new BufferedInputStream(new FileInputStream(inputFile));
 				BitInputStream bis = new BitInputStream(is);
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile));
-				HuffmanDecoder huffmanDecoder = new HuffmanDecoder(mapCopy);
+				Map<Integer,Integer> map1 = ecc.decryptionMap(encrypted);
+				HuffmanDecoder huffmanDecoder = new HuffmanDecoder(map1);
 				long s = System.currentTimeMillis();
 				huffmanDecoder.decoder(bis, bos);
 				long e = System.currentTimeMillis();

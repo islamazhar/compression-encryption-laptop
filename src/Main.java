@@ -51,6 +51,22 @@ public class Main {
 			System.out.println(siz+" "+sadResult*100+" %");
 			//	*/
 		}
+		
+		/*****
+		 * Step1: compress the file
+		 * Step2: encrypt the HT and permutation Map
+		 * Step3: send the encrypt HT , permuation Map and compressed data
+		 */
+		
+		/***
+		 * Send the data
+		 */
+		
+		/***
+		 * Step1: decrypt the HT and permuation Map
+		 * Step: decode the compressed data
+		 */
+		
 	}
 }
 
