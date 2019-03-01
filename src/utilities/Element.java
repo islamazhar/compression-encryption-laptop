@@ -6,11 +6,7 @@ public class Element implements Comparable <Element>{
 	public String encodedString = null;
 	public Integer count = 0;
 	public  Integer value = 0;
-	public Element(String _encodedString, Integer _count){
-		encodedString = _encodedString;
-		count = _count;
-		value = 0;
-	}
+	
 	public Element(Integer _count, Integer _value){
 		encodedString = "";
 		count = _count;
@@ -19,40 +15,59 @@ public class Element implements Comparable <Element>{
 	@Override
 	public boolean equals(Object arg0) {
 		Element t = (Element) arg0;
-		return t.count == count && t.encodedString.equals(encodedString) && t.value == t.value;
+		return t.count == count && 
+			//	t.encodedString.equals(encodedString) && 
+				t.value == value;
 	}
 	@Override
 	public int hashCode() {
-		return encodedString.hashCode() + count.hashCode();
+		return value.hashCode() ;
 	}
 	@Override
 	public String toString() {
-		return " couunt = " + count + " encodedString " + 
-				encodedString + " value " + value; 
+		return "{count = " + count + ",encodedString = " + 
+				encodedString + ",value =" + value+"}"; 
 		
 	}
 	@Override
 	public int compareTo(Element arg0) {
 		
+	//	/*
 		
-		if(arg0.count != count) 
-			return -arg0.count + count;
-		else if(!encodedString.equals(arg0.encodedString))
-				return encodedString.compareTo(arg0.encodedString);
-		else return -arg0.value+value;
+		if(!arg0.count.equals(count)) {
+			//System.out.println(arg0.count + " "+count);
+			return -arg0.count+count;
+		}
+	//	else if(!arg0.encodedString.equals(encodedString)) {
+	//		return arg0.encodedString.compareTo(encodedString);
+	//	}
+	//	System.out.println(this.toString());
+	//	System.out.println(arg0.toString());
+	//	System.out.println(-arg0.value+value);
+		return -arg0.value+value;
+	//	*/
+		/* 
+		if(arg0.count != count) { 
+			if(arg0.count<count) return 1;
+			return -1;
+		}
+		else if( arg0.value != value) {
+			if(arg0.value < value) return 1;
+			return -1;
+		}
+		else {
+			return arg0.encodedString.compareTo(encodedString);
+		}
+	//	*/
+		
 		//return encodedString.hashCode() - arg0.encodedString.hashCode();
 	}
 	public static void main(String[] args) { 
-	       // TreeSet<Integer> ts = new TreeSet<>();
+	     //   TreeSet<Element> ts = new TreeSet<>();
 	       // ts.
-	    		TreeSet<Element> ts = new TreeSet<Element>();
-	    		ts.add(new Element(12,65));
-	    		ts.add(new Element(13,67));
-	    		ts.add(new Element(13,68));
-	    		ts.add(new Element(20,68));
-	    		System.out.println(ts.lower(new Element(20,68)));
-	    		ts.remove(new Element(13,68));
-	    		
-	    		System.out.println(ts.lower(new Element(20,68)));
+	    		RedBlackBST<Element> ts = new RedBlackBST<Element>();
+	    		ts.put(new Element(138,111));
+	    		ts.put(new Element(138,115));
+	    		System.out.println(ts.toString());
 	    }
 }

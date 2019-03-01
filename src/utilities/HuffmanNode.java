@@ -9,10 +9,15 @@ package utilities;
 public class HuffmanNode { 
 	public int data; 
 	public Integer c; 
-	public HuffmanNode left; 
+	public HuffmanNode left;
+	public String leftSymbol;
 	public HuffmanNode right;
+	public String encodedString = null;
+	public HuffmanNode() {
+		encodedString = "";
+	}
 	public boolean isLeaf() {
-		if(left  == null && right  == null) {
+		if(left == null && right == null) { // -1 means not  a tree
 				return true;
 		}
 		else {

@@ -1,8 +1,5 @@
 package utilities;
 
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /******************************************************************************
  *  Compilation:  javac RedBlackBST.java
@@ -34,7 +31,6 @@ import java.util.HashMap;
  ******************************************************************************/
 
 import java.util.NoSuchElementException;
-import java.util.TreeSet;
 
 /**
  *  The {@code BST} class represents an ordered symbol table of generic
@@ -72,7 +68,7 @@ import java.util.TreeSet;
  *  @author Kevin Wayne
  */
 
-public class RedBlackBST<Key extends Comparable<Key>, Value> {
+public class RedBlackBST<Key extends Comparable<Key>> {
 
     private static final boolean RED   = true;
     private static final boolean BLACK = false;
@@ -82,14 +78,14 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     // BST helper node data type
     private class Node {
         private Key key;           // key
-        private Value val;         // associated data
+     //   private Value val;         // associated data
         private Node left, right;  // links to left and right subtrees
         private boolean color;     // color of parent link
         private int size;          // subtree count
 
-        public Node(Key key, Value val, boolean color, int size) {
+        public Node(Key key,  boolean color, int size) {
             this.key = key;
-            this.val = val;
+     //       this.val = val;
             this.color = color;
             this.size = size;
         }
@@ -145,21 +141,23 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
      *     and {@code null} if the key is not in the symbol table
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
-    public Value get(Key key) {
+    public int get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
         return get(root, key);
     }
 
     // value associated with the given key in subtree rooted at x; null if no such key
-    private Value get(Node x, Key key) {
+ //   /*
+    private int get(Node x, Key key) {
         while (x != null) {
             int cmp = key.compareTo(x.key);
             if      (cmp < 0) x = x.left;
             else if (cmp > 0) x = x.right;
-            else              return x.val;
+            else              return 1;
         }
-        return null;
+        return 0;
     }
+ //   */
 
     /**
      * Does this symbol table contain the given key?
@@ -169,7 +167,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
     public boolean contains(Key key) {
-        return get(key) != null;
+        return get(key) == 1;
     }
 
    /***************************************************************************
@@ -186,26 +184,23 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
      * @param val the value
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
-    public void put(Key key, Value val) {
+    
+    public void put(Key key) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-        if (val == null) {
-            delete(key);
-            return;
-        }
-
-        root = put(root, key, val);
+        
+        root = put(root, key);
         root.color = BLACK;
         // assert check();
     }
 
     // insert the key-value pair in the subtree rooted at h
-    private Node put(Node h, Key key, Value val) { 
-        if (h == null) return new Node(key, val, RED, 1);
+    private Node put(Node h, Key key) { 
+        if (h == null) return new Node(key, RED, 1);
 
         int cmp = key.compareTo(h.key);
-        if      (cmp < 0) h.left  = put(h.left,  key, val); 
-        else if (cmp > 0) h.right = put(h.right, key, val); 
-        else              h.val   = val;
+        if      (cmp < 0) h.left  = put(h.left,  key); 
+        else if (cmp > 0) h.right = put(h.right, key); 
+       // else              h.val   = val;
 
         // fix-up any right-leaning links
         if (isRed(h.right) && !isRed(h.left))      h = rotateLeft(h);
@@ -320,7 +315,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             if (key.compareTo(h.key) == 0) {
                 Node x = min(h.right);
                 h.key = x.key;
-                h.val = x.val;
+                //h.val = x.val;
                 // h.val = get(h.right, min(h.right).key);
                 // h.key = min(h.right).key;
                 h.right = deleteMin(h.right);
@@ -329,7 +324,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         }
         return balance(h);
     }
-
    /***************************************************************************
     *  Red-black tree helper functions.
     ***************************************************************************/
@@ -631,19 +625,17 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
         else              return rank(hi) - rank(lo);
     }
-
+public String toString() {
+	String ret = ""; 
+	for (Key key : keys()) {
+		 ret = ret + key.toString();
+	 }
+	return ret;
+}
 
    /***************************************************************************
     *  Check integrity of red-black tree data structure.
-    ***************************************************************************/
-    private boolean check() {
-      //  if (!isBST())            StdOut.println("Not in symmetric order");
-        //if (!isSizeConsistent()) StdOut.println("Subtree counts not consistent");
-   //     if (!isRankConsistent()) StdOut.println("Ranks not consistent");
-   //     if (!is23())             StdOut.println("Not a 2-3 tree");
-   //     if (!isBalanced())       StdOut.println("Not balanced");
-        return isBST() && isSizeConsistent() && isRankConsistent() && is23() && isBalanced();
-    }
+    
 
     // does this binary tree satisfy symmetric order?
     // Note: this test also ensures that data structure is a binary tree since order is strict
@@ -712,99 +704,5 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
      * Unit tests the {@code RedBlackBST} data type.
      *
      * @param args the command-line arguments
-     */
-    public static void main(String[] args) { 
-    	 	RedBlackBST<Element, Integer> st = new RedBlackBST<Element, Integer>();
-    	 	Map<String, Integer> mp1 = new HashMap<>();
-    	 	Map<Integer, String> mp2 = new HashMap<>();
-    	 	Map<Integer, String> mp3 = new HashMap<>();
-    	 	Map<Integer, Integer> cnt = new HashMap<>();
-    	 	mp1.put("101", 0);
-    	 	mp2.put(0, "101");
-    	 	
-    	 	mp1.put("001", 1);
-    	 	mp2.put(1, "001");
-    	 	
-    	 	mp1.put("111", 2);
-    	 	mp2.put(2, "111");
-    	 
-    	 	mp1.put("010", 3);
-    	 	mp2.put(3, "010");
-    	 	
-    	 	mp3.put(65,"101");
-    	 	mp3.put(66,"001");
-    	 	mp3.put(67,"111");
-    	 	mp3.put(68,"010");
-    	 	
-    	 	
-    	 	int [] line1 = {65,67, 68, 69};
-    	 	for(int i=0;i<line1.length;i++) {
-    	 		st.put(new Element(0,line1[i]),0);
-    	 	}
-    	 	
-    	 	int [] line = {65, 65, 67, 68, 65, 68, 67, 67, 68, 69};
-    	 	ArrayList<String> encodedString = new ArrayList<String>();
-    	 	for(int i=0;i<line.length;i++) {
-    	 		if(!cnt.containsKey(line[i])) {
-    	 			cnt.put(line[i],0);
-    	 		}
-    	 		Integer ch = line[i];
-    	 		int r = st.rank(new Element(cnt.get(ch), ch));
-    	 		String str = mp2.get(r);
-    	 		System.out.println(str);
-    	 		encodedString.add(str);
-    	 		st.delete(new Element(cnt.get(ch),ch));
-    	 		cnt.put(ch,cnt.get(ch)+1);
-    	 		st.put(new Element(cnt.get(ch),ch), 0);
-    	 	}
-    	 	
-    	 	
-    	 	System.out.println("====================================");
-    	 	st = new RedBlackBST<Element, Integer>();
-    	 	cnt.clear();
-    	 	mp1.clear();
-    	 	mp2.clear();
-    	 	mp3.clear();
-    	 	
-    	 	
-    		mp1.put("001", 0);
-    	 	mp2.put(0, "001");
-    	 	
-    	 	mp1.put("101", 1);
-    	 	mp2.put(1, "101");
-    	 	
-    	 	mp1.put("111", 2);
-    	 	mp2.put(2, "111");
-    	 
-    	 	mp1.put("010", 3);
-    	 	mp2.put(3, "010");
-    	 	
-    	 	mp3.put(65,"001");
-    	 	mp3.put(66,"101");
-    	 	mp3.put(67,"111");
-    	 	mp3.put(68,"010");
-    	 	
-    	 	
-    	 	
-    	 	
-    	 	
-    	 	for(int i=0;i<line1.length;i++) {
-    	 		st.put(new Element(0,line1[i]),0);
-    	 	}
-    	 	
-    	 	for(int i=0;i<encodedString.size();i++) {
-    	 		String encodedstr = encodedString.get(i);
-    	 		int pos = mp1.get(encodedstr);
-    	 		int value = st.select(pos).value;
-    	 		System.out.println(value);
-    	 		if(!cnt.containsKey(value)) {
-    	 			cnt.put(value,0);
-    	 		}
-    	 		st.delete(new Element(cnt.get(value),value));
-    	 		cnt.put(value,cnt.get(value)+1);
-    	 		st.put(new Element(cnt.get(value),value), 0);
-    	 		
-    	 	}	
-    }
+    */
 }
-
