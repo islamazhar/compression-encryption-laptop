@@ -68,7 +68,7 @@ import java.util.NoSuchElementException;
  *  @author Kevin Wayne
  */
 
-public class RedBlackBST<Key extends Comparable<Key>> {
+public class RedBlackBST<Key extends Comparable<Key>> implements  Cloneable{
 
     private static final boolean RED   = true;
     private static final boolean BLACK = false;
@@ -625,7 +625,11 @@ public class RedBlackBST<Key extends Comparable<Key>> {
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
         else              return rank(hi) - rank(lo);
     }
-public String toString() {
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+
+    public String toString() {
 	String ret = ""; 
 	for (Key key : keys()) {
 		 ret = ret + key.toString();

@@ -8,14 +8,19 @@ import java.io.PrintWriter;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 
-import ourmethod.Huffman;
+import compression.Huffman;
+
+//import classical.ClassicalHuffman;
+//import ourmethod.Huffman;
 
 public class Client {
-	final public static String USERNAME = "mazharul-islam";
-	final public static String PASS = "r";
+//	final public static String USERNAME = "mazharul-islam";
+final public static String USERNAME = "demo-user";
+	final public static String PASS = "demo-user";
+	//final public static String IP = "103.109.52.10";
+	final public static String IP = "199.71.215.197";
 
 	
 	/*
@@ -30,11 +35,10 @@ public class Client {
 		try {
 			
 			String srcFilename = source;
-			PrintWriter pw = new PrintWriter("FTSP_size_time_aes.txt");
 		//	long avg = 0;
 			String filename = des;
 			File file = new File(srcFilename);
-			client.connect("192.168.0.104",21);
+			client.connect(IP,21);
 			client.login(USERNAME, PASS);
 			client.execPBSZ(0);
 			client.execPROT("P");
@@ -47,7 +51,6 @@ public class Client {
 			tim2 = System.currentTimeMillis();
 			srcFileStream.close();
 			client.disconnect();
-			pw.close();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -66,11 +69,10 @@ public class Client {
 		try {
 			
 			String srcFilename = source;
-			PrintWriter pw = new PrintWriter("FTSP_size_time_aes.txt");
 			long avg = 0;
 			String filename = des;
 			File file = new File(srcFilename);
-			client.connect("192.168.0.104",21);
+			client.connect(IP,21);
 			client.login(USERNAME, PASS);
 			client.execPBSZ(0);
 			client.execPROT("P");
@@ -83,7 +85,6 @@ public class Client {
 			tim2 = System.currentTimeMillis();
 			srcFileStream.close();
 			client.disconnect();
-			pw.close();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -101,11 +102,10 @@ public class Client {
 		try {
 			
 			String srcFilename = source;
-			PrintWriter pw = new PrintWriter("FTSP_size_time_aes.txt");
 			long avg = 0;
 			String filename = des;
 			File file = new File(srcFilename);
-			client.connect("192.168.0.104",21);
+			client.connect(IP,21);
 			client.login(USERNAME, PASS);
 			
 			client.setFileTransferMode(FTP.BINARY_FILE_TYPE);
@@ -117,7 +117,6 @@ public class Client {
 			tim2 = System.currentTimeMillis();
 			srcFileStream.close();
 			client.disconnect();
-			pw.close();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -136,11 +135,10 @@ public class Client {
 		try {
 			
 			String srcFilename = source;
-			PrintWriter pw = new PrintWriter("FTSP_size_time_aes.txt");
 			long avg = 0;
 			String filename = des;
 			File file = new File(srcFilename);
-			client.connect("192.168.0.104",21);
+			client.connect(IP,21);
 			client.login(USERNAME, PASS);
 			client.setFileTransferMode(FTP.BINARY_FILE_TYPE);
 			client.enterLocalPassiveMode();
@@ -151,7 +149,6 @@ public class Client {
 			tim2 = System.currentTimeMillis();
 			srcFileStream.close();
 			client.disconnect();
-			pw.close();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -161,18 +158,17 @@ public class Client {
 	public static void main(String args[]) {
 
 		Client client = new Client();
-		String localFile = "/Users/mazharul.islam/Desktop/R2.txt";
-		String localZipFile = "/Users/mazharul.islam/Desktop/R2.zip";
-		String remoteFile = "/home/mazharul-islam/512/hello.txt";
-		String remoteZipFile = "/home/mazharul-islam/512/hello.zip";
-		//long t1 = client.FTPSUP("/Users/mazharul.islam/Desktop/R2.txt", "/home/mazharul-islam/512/hello.txt");
-	//	client.FTPSDownload("/Users/mazharul.islam/Desktop/R3.txt", "/home/mazharul-islam/512/hello.txt");
+		String inputFileNamme = "/Users/mazharul.islam/Desktop/37-taxon.csv";
+
+		//Huffman h = new Huffman();
 		
-		long t = 0;
-	//	Huffman huffman = new Huffman();
-	//	t = huffman.compress(localFile,localZipFile);
-		t += 	client.FTPSUP(localZipFile,remoteZipFile);
-		System.out.println("Time is " + t);
+	//	System.out.println(h.compress(inputFileNamme, "test.zip"));
+	//	System.out.println(client.FTPSUP(inputFileNamme,"/home/uiu/mazharul/Lab/a.txt"));
+		
+		//System.out.println(client.FTPSUP("test.zip","/home/mazharul-islam/512/1.jpg"));
+	//	System.out.println(client.FTPSUP(inputFileNamme,"/upload/mazhar.sh"));
+		System.out.println(client.FTPUP(inputFileNamme,"/upload/mazhar1.sh"));
+		//System.out.println(client.FTPSUP(inputFileNamme,"/upload/mazhar.sh"));
 		
 	}
 }

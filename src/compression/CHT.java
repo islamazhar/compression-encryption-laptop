@@ -2,6 +2,7 @@ package compression;
 
 import encryption.ECC;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class CHT {
             Node h = huffmanNodes.get(ri);
             h.swap();
             //System.out.println(ri);
-            buildCode(st, h, st[h.ch]);
+            buildCode(st, root, "");
             //System.out.println(ch);
             String code = st[ch];
 
@@ -186,7 +187,7 @@ public class CHT {
 
             Node h = huffmanNodes.get(ri);
             h.swap();
-            buildCode(st, h, st[h.ch]);
+            buildCode(st, root, "");
 
             Node x = root;
             while (!x.isLeaf()) {
@@ -227,17 +228,21 @@ public class CHT {
 
     public static void main(String[] args) {
 
-        String folderName = "/Users/mazharul.islam/compression/HComECC/test-data/sizes/";
+        String folderName = "/Users/mazharul.islam/Desktop/compression-files/large";
+        String [] fileNames = {"bible.txt", "E.coli", "world192.txt","a.txt","aaa.txt", "alphabet.txt", "random.txt","pic"};
+        for(String fileName: fileNames){
         //for(Integer siz = 860000;siz<=860000;siz=siz+860000)  {
-            String source = folderName+"/"+"4300000.sh";
+            String source = folderName+"/"+ fileName;
+            //System.out.println(source);
             String compressedFile = source+".cht";
             String outFile = source+".cht.again.txt";
 
             CHT cht = new CHT();
-            System.out.println(cht.compress(source, compressedFile));
-            System.out.println(cht.deCompress(compressedFile, outFile));
-
-        //}
+            double tim1 = cht.compress(source, compressedFile);
+            double tim2 = cht.deCompress(compressedFile, outFile);
+            System.out.println(fileName+","+"CHT,"+tim1+","+new File(source).length());
+            System.out.println(fileName+","+"CHT,"+tim2+","+new File(source).length());
+        }
 
     }
 }
