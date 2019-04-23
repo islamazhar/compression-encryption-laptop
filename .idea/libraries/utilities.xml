@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="utilities">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/utilities/agent.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/utilities/classmexer.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

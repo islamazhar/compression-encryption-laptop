@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="HComECC2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/HComECC/classmexer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/HComECC/commons-net-3.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

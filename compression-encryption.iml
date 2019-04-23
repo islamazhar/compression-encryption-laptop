@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/commons-net-3.6" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="utilities" level="project" />
+    <orderEntry type="library" name="utilities1" level="project" />
+    <orderEntry type="library" name="HComECC2" level="project" />
+    <orderEntry type="library" name="HComECC" level="project" />
+    <orderEntry type="library" name="src" level="project" />
+    <orderEntry type="library" name="compression-encryption" level="project" />
+    <orderEntry type="library" name="commons-net-3.6" level="project" />
+    <orderEntry type="library" name="classmexer" level="project" />
+    <orderEntry type="library" name="HComECC1" level="project" />
+    <orderEntry type="library" name="R User Library" level="project" />
+    <orderEntry type="library" name="R Skeletons" level="application" />
+  </component>
+</module>

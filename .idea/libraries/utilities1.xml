@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="utilities1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/HComECC/utilities/agent.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/HComECC/utilities/classmexer.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

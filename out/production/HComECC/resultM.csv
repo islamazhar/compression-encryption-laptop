@@ -1,0 +1,9 @@
+method,size,mem
+RankedFTP,256,24.0
+RankedFTP,512,24.0
+RankedFTP,1024,24.0
+RankedFTP,2048,24.0
+RankedFTP,4096,24.0
+RankedFTP,8192,24.0
+RankedFTP,16384,24.0
+RankedFTP,32768,24.0

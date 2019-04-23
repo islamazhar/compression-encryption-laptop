@@ -1,0 +1,7 @@
+Filename,method,compress-time,decompress-time,filesize
+bible.txt,HEliOS,2013.0,1532.0,4047392
+E.coli,HEliOS,673.0,547.0,4638690
+world192.txt,HEliOS,1231.0,1031.0,2473400
+bible.txt,CHT,1494.0,855.0,4047392
+E.coli,CHT,1111.0,938.0,4638690
+world192.txt,CHT,657.0,509.0,2473400

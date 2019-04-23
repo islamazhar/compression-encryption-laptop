@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="815c474a-746a-4bf2-b872-f9da0bfb3e1a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/compression/Node.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/file/transfer/DropboxClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utilities/MemoryTester.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utilities/STFP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FTSP_size_time_aes.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/chaotic/HuffmanDecoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/chaotic/HuffmanEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/chaotic/chaoticHuffmanCompression.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classical/Huffman.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classical/HuffmanDecoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classical/HuffmanEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/file/transfer/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/file/transfer/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ourmethod/Huffman.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ourmethod/HuffmanDecoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ourmethod/HuffmanEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/utilities/BitInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/utilities/BitOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/utilities/Element.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/utilities/Element.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/utilities/HuffmanNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/utilities/MyComparator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/utilities/TextFileGenerate.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/utilities/TextFileGenerate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph.R" beforeDir="false" afterPath="$PROJECT_DIR$/graph.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chaotic/HuffmanDecoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chaotic/HuffmanEncoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chaotic/chaoticHuffmanCompression.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classical/Huffman.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classical/HuffmanDecoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classical/HuffmanEncoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compression/CHT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/compression/CHT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/encryption/ECC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/encryption/ECC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/file/transfer/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/file/transfer/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ourmethod/Huffman.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ourmethod/HuffmanDecoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ourmethod/HuffmanEncoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/BitInputStream.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/BitOutputStream.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/CompareCount.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/Element.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/Element.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/HuffmanNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/MyComparator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/RedBlackBST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/RedBlackBST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/TextFileGenerate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/TextFileGenerate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/1.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/1.txt.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/1.txt.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/1.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/11.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/11.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/2.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/2.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/2048.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/2048.copy.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/2048.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/2048.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/3.txt.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/65536.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/E.coli" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/E.coli.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/E.coli.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/LittleDorrit.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/bible.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/bible.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/bible.txt.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/bible.txt.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/bible.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/pg57440.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/pg57440.txt.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/pg57440.txt.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/1024.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/1024.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/1024.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/1048576.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/1048576.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/1048576.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/131072.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/131072.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/131072.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/16384.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/16384.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/16384.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/2048.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/2048.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/2048.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/2097152.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/2097152.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/2097152.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/262144.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/262144.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/262144.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/32768.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/32768.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/32768.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/4096.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/4096.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/4096.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/524288.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/524288.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/524288.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/65536.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/65536.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/65536.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/8192.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/8192.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/sizes/8192.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/world192.again.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/world192.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-data/world192.zip" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="815c474a-746a-4bf2-b872-f9da0bfb3e1a" name="Default Changelist" comment="" />
+      <created>1556046034791</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1556046034791</updated>
+      <workItem from="1556046036155" duration="8000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="8000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="45" y="23" width="1395" height="877" extended-state="6" />
+    <layout>
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24981523" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Codota" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Maven" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="R Packages" />
+      <window_info anchor="right" id="R Graphics" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>9</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
