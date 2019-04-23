@@ -96,7 +96,10 @@ public class CHT {
 
         List<Node> huffmanNodes = new ArrayList<>();
         listNodes(root, huffmanNodes);
-       // System.out.print("compressing = ");
+        //for(Node x : huffmanNodes) {
+          //  System.out.println(x);
+        //}
+
         for (int i = 0; i < input.length; i++) {
             char ch = input[i];
             int n = 1 + vm % 10;
@@ -108,27 +111,27 @@ public class CHT {
             x0 = xn;
             vm = ch;
 
-        //    System.out.print(ri+"-");
+
             Node h = huffmanNodes.get(ri);
             h.swap();
             //System.out.println(ri);
-            buildCode(st, root, "");
+            buildCode(st, h, st[h.ch]);
             //System.out.println(ch);
             String code = st[ch];
 
             for (int j = 0; j < code.length(); j++) {
 
                 if (code.charAt(j) == '1') {
-                    BinaryStdOut.write(1);
+                    BinaryStdOut.write(true);
                 } else if (code.charAt(j) == '0') {
-                    BinaryStdOut.write(1);
+                    BinaryStdOut.write(false);
                 } else {
                     throw new IllegalStateException("Illegal state");
                 }
             }
         }
         long t2 = System.currentTimeMillis();
-      //  System.out.println("----");
+
         return t2 - t1;
 
     }
@@ -166,7 +169,13 @@ public class CHT {
         String[] st = new String[R];
         List<Node> huffmanNodes = new ArrayList<>();
         listNodes(root, huffmanNodes);
-      //  System.out.print("Decompresing");
+        //for(Node x : huffmanNodes) {
+          //  System.out.println(x);
+        //}
+
+        x0 = 0.5;
+        vm = 33;
+
         for (int i = 0; i < length; i++) {
 
             int n = 1 + vm % 10;
@@ -175,11 +184,9 @@ public class CHT {
             Integer ri = r.intValue();
 
 
-
-           // System.out.print(ri+"-");
             Node h = huffmanNodes.get(ri);
             h.swap();
-            buildCode(st, root,"");
+            buildCode(st, h, st[h.ch]);
 
             Node x = root;
             while (!x.isLeaf()) {
@@ -194,37 +201,43 @@ public class CHT {
         }
 
         long t2 = System.currentTimeMillis();
-       // System.out.println("----");
+
         return t2 - t1;
     }
     public long compress(String inputFileNamme, String compressedFileName) {
 
         BinaryStdIn.takeInputFile(inputFileNamme);
         BinaryStdOut.takeInputFile(compressedFileName);
-        double t = 0;
-        t += CHT.compress();
-
-        return 0;
+        long compressTime = 0;
+        compressTime += CHT.compress();
+        BinaryStdIn.close();
+        BinaryStdOut.close();
+        return compressTime;
     }
 
     public long deCompress(String compressedFileName, String outputFileName) {
         BinaryStdIn.takeInputFile(compressedFileName);
         BinaryStdOut.takeInputFile(outputFileName);
         long decompressTime = CHT.expand();
+        BinaryStdIn.close();
+        BinaryStdOut.close();
         return decompressTime;
     }
 
 
     public static void main(String[] args) {
+
         String folderName = "/Users/mazharul.islam/compression/HComECC/test-data/sizes/";
-        for(Integer siz = 860000;siz<=860000;siz=siz+860000)  {
-            String source = folderName+"/"+siz+".sh";
+        //for(Integer siz = 860000;siz<=860000;siz=siz+860000)  {
+            String source = folderName+"/"+"4300000.sh";
             String compressedFile = source+".cht";
             String outFile = source+".cht.again.txt";
 
             CHT cht = new CHT();
-            cht.compress(source, compressedFile);
-            cht.deCompress(compressedFile, outFile);
-        }
+            System.out.println(cht.compress(source, compressedFile));
+            System.out.println(cht.deCompress(compressedFile, outFile));
+
+        //}
+
     }
 }
