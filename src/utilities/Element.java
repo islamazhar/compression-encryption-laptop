@@ -22,12 +22,11 @@ public class Element implements Comparable <Element>{
 
 	@Override
 	public int compareTo(Element arg0) {
+		if(!arg0.curFrequency.equals(curFrequency)) {
+			return arg0.curFrequency-curFrequency;
+		}
 		if(!arg0.level.equals(level)){
 			return -arg0.level+level;
-		}
-
-		if(!arg0.curFrequency.equals(curFrequency)) {
-			return -arg0.curFrequency+curFrequency;
 		}
 		return -arg0.value+value;
 	}
