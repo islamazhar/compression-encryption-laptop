@@ -35,11 +35,17 @@
  *  @author Kevin Wayne
  */
 package compression;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
+import com.jcraft.jsch.IO;
 import encryption.ECC;
 import file.transfer.Client;
+import file.transfer.DropboxClient;
+import utilities.Files;
 
 
 public class Huffman {
@@ -190,8 +196,8 @@ public class Huffman {
     }
 
 
-  //  public double compress(String inputFileNamme, String compressed, String encryptedCompressed ) {
-  public double compress(String inputFileNamme, String compressed) {
+    public double compress(String inputFileNamme, String compressed, String encryptedCompressed ) {
+  //public double compress(String inputFileNamme, String compressed) {
         BinaryStdIn.takeInputFile(inputFileNamme);
         BinaryStdOut.takeInputFile(compressed);
         double t = 0;
@@ -199,17 +205,17 @@ public class Huffman {
         //System.err.println("Compression = "+t);
         BinaryStdIn.close();
         BinaryStdOut.close();
-       // double tt = ecc.encryption(compressed,encryptedCompressed);
+        double tt = ecc.encryption(compressed,encryptedCompressed);
         //System.err.println("Encryption = "+tt);
-       // t += tt;
+        t += tt;
         return t;
     }
-    //public double deCompress(String encryptedCompressed, String decryptedCompressed, String outputFile ) {
-    public double deCompress(String compressedFile, String decryptedCompressed) {
+    public double deCompress(String encryptedCompressed, String decryptedCompressed, String outputFile ) {
+    //public double deCompress(String compressedFile, String decryptedCompressed) {
         double t = 0;
-       // t+=ecc.decryption(encryptedCompressed,decryptedCompressed);
-        BinaryStdIn.takeInputFile(compressedFile);
-        BinaryStdOut.takeInputFile(decryptedCompressed);
+        t+=ecc.decryption(encryptedCompressed,decryptedCompressed);
+        BinaryStdIn.takeInputFile(decryptedCompressed);
+        BinaryStdOut.takeInputFile(outputFile);
         double tt = Huffman.expand();
         BinaryStdIn.close();
         BinaryStdOut.close();
@@ -218,20 +224,54 @@ public class Huffman {
     }
 
     public static void main(String[] args) throws IOException {
-        String folderName = "/Users/mazharul.islam/Desktop/compression-files/large";
-        String [] fileNames = {"bible.txt", "E.coli", "world192.txt","a.txt","aaa.txt", "alphabet.txt", "random.txt","pic"};
-        for(String fileName: fileNames){
-            //for(Integer siz = 860000;siz<=860000;siz=siz+860000)  {
-            String source = folderName+"/"+ fileName;
-            //System.out.println(source);
-            String compressedFile = source+".helios";
-            String outFile = source+".helios.again.txt";
-
-            Huffman cht = new Huffman();
-            double tim1 = cht.compress(source, compressedFile);
-            double tim2 = cht.deCompress(compressedFile, outFile);
-            System.out.println(fileName+","+"classical-Huffman,"+tim1+","+new File(source).length());
-            System.out.println(fileName+","+"classical-Huffman,"+tim2+","+new File(source).length());
+       // String filetype = "songs";
+        //String filetype = "office";
+        //String filetype = "video";
+        String filetype = "ebooks";
+        DropboxClient dropboxClient = new DropboxClient();
+        String dropboxDirectory = "/upload/";
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File("results-laptop-dropbox.csv"), true));
+        String directoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/";
+        String outputDirectoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/Huffman/";
+        Files files = new Files(directoryAddress);
+        List<String> filesName = files.getFiles();
+        for(String fileName: filesName) {
+            try {
+                String source = directoryAddress + fileName;
+                System.out.println(source);
+                String compressedFile = outputDirectoryAddress + fileName + ".huffman";
+                String encryptedCompressed = outputDirectoryAddress + fileName + ".huffman.en";
+                String outFile = outputDirectoryAddress + fileName + ".huffman.again.txt";
+                for (int i = 0; i < 1; i++) {
+                    Huffman huffman = new Huffman();
+                    double compressionAndEncryptionTime = huffman.compress(source, compressedFile, encryptedCompressed);
+                    double uploadTime = dropboxClient.HTTPUP(encryptedCompressed, dropboxDirectory + fileName);
+                    double downloadTime = dropboxClient.HTTPUP(encryptedCompressed, dropboxDirectory + fileName);
+                    double decryptAndDecompressTime = huffman.deCompress(encryptedCompressed, compressedFile, outFile);
+                    dropboxClient.delete(dropboxDirectory + fileName);
+                    double size = new File(source).length() / 1000.00;
+                    String line = fileName + " (" + Math.round(size) + "KB)," + "Classical Huffman-U," + compressionAndEncryptionTime + "," + new File(source).length() + ",Classical Huffman compression," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "Classical Huffman-D," + decryptAndDecompressTime + "," + new File(source).length() + ",Classical Huffman decompression," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "Classical Huffman-CS," + new File(compressedFile).length() + "," + new File(source).length() + ",Classical Huffman scale," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "Classical Huffman-U," + uploadTime + "," + new File(source).length() + ",Classical Huffman upload," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "Classical Huffman-D," + downloadTime + "," + new File(source).length() + ",Classical Huffman download," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                }
+                //break;
+            } catch (Exception ex) {
+                System.err.println(fileName);
+                //   ex.printStackTrace();
+            }
         }
+        bos.close();
     }
 }
