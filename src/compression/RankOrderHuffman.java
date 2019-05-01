@@ -1,12 +1,15 @@
 package compression;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import encryption.ECC;
+import file.transfer.DropboxClient;
 import utilities.Element;
+import utilities.Files;
 import utilities.RedBlackBST;
 
 public class RankOrderHuffman {
@@ -26,11 +29,11 @@ public class RankOrderHuffman {
     static ECC ecc = null;
     // Do not instantiate.
     public RankOrderHuffman() {
-        ht = new RedBlackBST<Element>();
-        ht1 = new RedBlackBST<Element>();
+        ecc = new ECC();
+        ht = new RedBlackBST<>();
+        ht1 = new RedBlackBST<>();
         Map1 = new HashMap<Integer,String>();
         Map2 = new HashMap<String, Integer>();
-        ecc = new ECC();
     }
 
     // Huffman trie node
@@ -78,27 +81,17 @@ public class RankOrderHuffman {
         Node root = buildTrie(freq);
 
         // build code table
+
         st = new String[R];
+
+
         buildCode(st, root, "");
 
 
-
-			/*
-			try {
-				ht1 = (RedBlackBST) ht.clone();
-				System.out.println(ht1.toString());
-			}catch ( CloneNotSupportedException ex){
-				ex.printStackTrace();
-			}
-			*/
-        // print trie for decoder
-
-        plainText = new byte[length+1];
-        length = 0;
         writeTrie(root); // interesting place apply encryption on the root and then write.
 
-      //  BinaryStdOut.close();
-     //   BinaryStdOut.takeInputFile(filename);
+        BinaryStdOut.close();
+        BinaryStdOut.takeInputFile(filename);
         // print number of bytes in original uncompressed message
 
         BinaryStdOut.write(input.length);
@@ -152,10 +145,8 @@ public class RankOrderHuffman {
             freq[input[i]]++;
             ht.put(e);
         }
-        //	cipherText = ecc.encryption(plainText);
         long e = System.currentTimeMillis();
 
-        // close output stream
         BinaryStdOut.close();
         return e-ss;
     }
@@ -212,11 +203,7 @@ public class RankOrderHuffman {
             Integer len = s.length();
             Element e  = new Element(0,x.ch,len);
             ht.put(e);
-            ht1.put(new Element(0,x.ch,len)); // for decoding
-            //Integer siz = ht.size();
-            //Map2.put(s, siz-1);
-            //length +=len;
-            //Map1.put(siz-1,s);
+            ht1.put(e); // for decoding
             //////////////////////////////
         }
     }
@@ -231,8 +218,8 @@ public class RankOrderHuffman {
         long s = System.currentTimeMillis();
         // read in Huffman trie from input stream
         Node root = readTrie();
-      //  BinaryStdIn.close();
-       // BinaryStdIn.takeInputFile(filename);
+        BinaryStdIn.close();
+        BinaryStdIn.takeInputFile(filename);
 
         // number of bytes to write
         int length = BinaryStdIn.readInt();
@@ -255,7 +242,7 @@ public class RankOrderHuffman {
             e.curFrequency++;
             ht1.put(e);
         }
-        //ecc.decryption(cipherText);
+
         long e = System.currentTimeMillis();
         BinaryStdIn.close();
         BinaryStdOut.close();
@@ -274,41 +261,82 @@ public class RankOrderHuffman {
     }
 
     public double compress(String inputFileNamme, String compressed) {
-       // String tree = compressed+".tree";
+        String tree = compressed+".tree";
         BinaryStdIn.takeInputFile(inputFileNamme);
-        BinaryStdOut.takeInputFile(compressed);
+        BinaryStdOut.takeInputFile(tree);
         double t = 0;
         t += compress(compressed);
-       // System.err.println("Compression = "+t);
-        //double tt = ecc.encryption(tree,tree+".encrypted");
-       // System.err.println("Encryption = "+tt);
-        //t += tt;
+        double treeEncryptionTime = ecc.encryption(tree,tree+".encrypted");
+        t += treeEncryptionTime;
         return t;
     }
+
     public double deCompress (String compressed, String outputFile) {
-      //  String tree = compressed+".tree";
-       // double tt = ecc.decryption(compressed+".tree.encrypted",tree);
-        BinaryStdIn.takeInputFile(compressed);
+        String tree = compressed+".tree";
+        double decryptionTime = ecc.decryption(compressed+".tree.encrypted",tree);
+        BinaryStdIn.takeInputFile(tree);
         BinaryStdOut.takeInputFile(outputFile);
         double t = expand(compressed);
-       // t += tt;
+        t += decryptionTime;
         return t;
     }
-    public static  void main(String[] args){
-        String folderName = "/Users/mazharul.islam/Desktop/compression-files/large";
-        String [] fileNames = {"bible.txt", "E.coli", "world192.txt","a.txt","aaa.txt", "alphabet.txt", "random.txt","pic"};
-        for(String fileName: fileNames){
-            //for(Integer siz = 860000;siz<=860000;siz=siz+860000)  {
-            String source = folderName+"/"+ fileName;
-            //System.out.println(source);
-            String compressedFile = source+".helios";
-            String outFile = source+".helios.again.txt";
+    public static  void main(String[] args)  throws  IOException{
+        //String filetype = "office";
+        //String filetype = "video";
+        String filetype = "ebooks";
+        DropboxClient dropboxClient = new DropboxClient();
+        String dropboxDirectory = "/upload/";
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File("results-laptop-dropbox.csv"), true));
+        String directoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/";
+        String outputDirectoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/HEliOS/";
+        Files files = new Files(directoryAddress);
+        List<String> filesName = files.getFiles();
+        for(String fileName: filesName) {
+            try {
 
-            RankOrderHuffman cht = new RankOrderHuffman();
-            double tim1 = cht.compress(source, compressedFile);
-            double tim2 = cht.deCompress(compressedFile, outFile);
-            System.out.println(fileName+","+"HEliOS,"+tim1+","+new File(source).length());
-            System.out.println(fileName+","+"HEliOS,"+tim2+","+new File(source).length());
+                //String fileName = "dvcpro-hd-1080p30.mov";
+                String source = directoryAddress + fileName;
+
+                String compressedFile = outputDirectoryAddress + fileName + ".helios";
+                String outFile = outputDirectoryAddress + fileName + ".helios.again.txt";
+                for (int i = 0; i < 1; i++) {
+                    System.out.println(source);
+                    RankOrderHuffman helios = new RankOrderHuffman();
+                    double compressionTime = helios.compress(source, compressedFile); // upload
+                    double uploadTime = dropboxClient.HTTPUP(compressedFile, dropboxDirectory + fileName);
+                    double downloadTime = dropboxClient.HTTPUP(compressedFile, dropboxDirectory + fileName);
+                    double decompressionTime = helios.deCompress(compressedFile, outFile); // download
+
+
+                    dropboxClient.delete(dropboxDirectory + fileName);
+
+                    double size = new File(source).length() / 1000.00;
+                    //System.out.println(size);
+                    String line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-U," + compressionTime + "," + new File(source).length() + ",HEliOS compression," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-D," + decompressionTime + "," + new File(source).length() + ",HEliOS decompression," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-CS," + new File(compressedFile).length() + "," + new File(source).length() + ",HEliOS scale," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-U," + uploadTime + "," + new File(source).length() + ",HEliOS upload," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-D," + downloadTime + "," + new File(source).length() + ",HEliOS download," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                }
+                //break;
+
+
+            } catch (Exception ex) {
+                System.err.println("Exception " + fileName);
+                ex.printStackTrace();
+            }
         }
+        bos.close();
+
     }
 }
