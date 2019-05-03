@@ -1,8 +1,13 @@
 package compression;
 
 import encryption.ECC;
+import file.transfer.DropboxClient;
+import utilities.Files;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +26,7 @@ public class CHT {
 
 
     public CHT() {
-        //ecc = new ECC();
+        ecc = new ECC();
     }
 
 
@@ -79,7 +84,7 @@ public class CHT {
         writeTrie(x.right);
     }
 
-    public static long compress() {
+    public static long compress(String compressedFileName) {
         long t1 = System.currentTimeMillis();
         String s = BinaryStdIn.readString();
         char[] input = s.toCharArray();
@@ -93,13 +98,14 @@ public class CHT {
         String[] st = new String[R];
         buildCode(st, root, "");
         writeTrie(root);
+
+        BinaryStdOut.close();
+        BinaryStdOut.takeInputFile(compressedFileName);
+
         BinaryStdOut.write(input.length);
 
         List<Node> huffmanNodes = new ArrayList<>();
         listNodes(root, huffmanNodes);
-        //for(Node x : huffmanNodes) {
-          //  System.out.println(x);
-        //}
 
         for (int i = 0; i < input.length; i++) {
             char ch = input[i];
@@ -117,7 +123,7 @@ public class CHT {
             h.swap();
             //System.out.println(ri);
             buildCode(st, root, "");
-            //System.out.println(ch);
+           // buildCode(st, h, st[h.ch]);
             String code = st[ch];
 
             for (int j = 0; j < code.length(); j++) {
@@ -131,10 +137,9 @@ public class CHT {
                 }
             }
         }
+        BinaryStdOut.close();
         long t2 = System.currentTimeMillis();
-
         return t2 - t1;
-
     }
 
     private static double chaoticMap(double x0, int n) {
@@ -158,11 +163,15 @@ public class CHT {
         }
     }
 
-    public static long expand() {
+    public static long expand( String compressedFile) {
 
         // read in Huffman trie from input stream
         long t1 = System.currentTimeMillis();
         Node root = readTrie();
+
+        BinaryStdIn.close();
+        BinaryStdIn.takeInputFile(compressedFile);
+
         // number of bytes to write
         int length = BinaryStdIn.readInt();
         // decode using the Huffman trie
@@ -188,6 +197,7 @@ public class CHT {
             Node h = huffmanNodes.get(ri);
             h.swap();
             buildCode(st, root, "");
+            //buildCode(st, h, st[h.ch]);
 
             Node x = root;
             while (!x.isLeaf()) {
@@ -200,49 +210,83 @@ public class CHT {
             x0 = xn;
             vm = x.ch;
         }
-
+        BinaryStdOut.close();
         long t2 = System.currentTimeMillis();
 
         return t2 - t1;
     }
-    public long compress(String inputFileNamme, String compressedFileName) {
-
+    public double compress(String inputFileNamme, String compressed) {
+        String tree = compressed+".tree";
         BinaryStdIn.takeInputFile(inputFileNamme);
-        BinaryStdOut.takeInputFile(compressedFileName);
-        long compressTime = 0;
-        compressTime += CHT.compress();
-        BinaryStdIn.close();
-        BinaryStdOut.close();
-        return compressTime;
+        BinaryStdOut.takeInputFile(tree);
+        double t = 0;
+        t += compress(compressed);
+        // System.err.println("Compression = "+t);
+        double encryptionTime = ecc.encryption(tree,tree+".encrypted");
+        // System.err.println("Encryption = "+tt);
+        t += encryptionTime;
+        return t;
     }
 
-    public long deCompress(String compressedFileName, String outputFileName) {
-        BinaryStdIn.takeInputFile(compressedFileName);
-        BinaryStdOut.takeInputFile(outputFileName);
-        long decompressTime = CHT.expand();
-        BinaryStdIn.close();
-        BinaryStdOut.close();
-        return decompressTime;
+    public double deCompress (String compressed, String outputFile) {
+        String tree = compressed+".tree";
+        double decryptionTime = ecc.decryption(compressed+".tree.encrypted",tree);
+        BinaryStdIn.takeInputFile(compressed);
+        BinaryStdOut.takeInputFile(outputFile);
+        double t = expand(compressed);
+        t += decryptionTime;
+        return t;
     }
 
 
-    public static void main(String[] args) {
-
-        String folderName = "/Users/mazharul.islam/Desktop/compression-files/large";
-        String [] fileNames = {"bible.txt", "E.coli", "world192.txt","a.txt","aaa.txt", "alphabet.txt", "random.txt","pic"};
-        for(String fileName: fileNames){
-        //for(Integer siz = 860000;siz<=860000;siz=siz+860000)  {
-            String source = folderName+"/"+ fileName;
-            //System.out.println(source);
-            String compressedFile = source+".cht";
-            String outFile = source+".cht.again.txt";
-
-            CHT cht = new CHT();
-            double tim1 = cht.compress(source, compressedFile);
-            double tim2 = cht.deCompress(compressedFile, outFile);
-            System.out.println(fileName+","+"CHT,"+tim1+","+new File(source).length());
-            System.out.println(fileName+","+"CHT,"+tim2+","+new File(source).length());
+    public static void main(String[] args) throws IOException {
+       // String filetype = "songs";
+        String filetype = "office";
+      //  String filetype = "video";
+       // String filetype = "ebooks";
+        DropboxClient dropboxClient = new DropboxClient();
+        String dropboxDirectory = "/upload/";
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File("results-laptop-dropbox.csv"), true));
+        String directoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/";
+        String outputDirectoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/CHT/";
+        Files files = new Files(directoryAddress);
+        List<String> filesName = files.getFiles();
+        try {
+            for(String fileName: filesName) {
+                String source = directoryAddress + fileName;
+                System.out.println(source);
+                String compressedFile = outputDirectoryAddress + fileName +  ".cht";
+                //String encryptedCompressed = outputDirectoryAddress + fileName + ".cht.en";
+                String outFile = outputDirectoryAddress + fileName + ".cht.again.txt";
+                for (int i = 0; i < 1; i++) {
+                    CHT chaoticHuffmanTree = new CHT();
+                    double tim1 = chaoticHuffmanTree.compress(source, compressedFile);
+                    double uploadTime = dropboxClient.HTTPUP(compressedFile,dropboxDirectory+fileName);
+                    double tim2 = chaoticHuffmanTree.deCompress(compressedFile, outFile);
+                    double downloadTime = dropboxClient.HTTPUP(compressedFile,dropboxDirectory+fileName);
+                    dropboxClient.delete(dropboxDirectory+fileName);
+                    double size = new File(source).length() / 1000.00;
+                    String line = fileName + " (" + Math.round(size) + "KB)," + "cht-U," + tim1 + "," + new File(source).length() + ",Chaotic Huffman Tree (CHT) compression," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "cht-D," + tim2 + "," + new File(source).length() + ",Chaotic Huffman Tree (CHT) decompression," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "cht-CS," + new File(compressedFile).length() + "," + new File(source).length() + ",Chaotic Huffman Tree (CHT) scale," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "cht-U," + uploadTime + "," + new File(source).length() + ",Chaotic Huffman Tree (CHT) upload," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                    line = fileName + " (" + Math.round(size) + "KB)," + "cht-D," + downloadTime + "," + new File(source).length() + ",Chaotic Huffman Tree (CHT) download," + filetype+"\n";
+                    bos.write(line.getBytes());
+                    System.out.print(line);
+                }
+               // break;
+            }
+            bos.close();
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-
     }
 }
