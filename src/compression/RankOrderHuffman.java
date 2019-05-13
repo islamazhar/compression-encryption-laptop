@@ -1,23 +1,32 @@
 package compression;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import encryption.ECC;
 import file.transfer.DropboxClient;
 import utilities.Element;
-import utilities.Files;
 import utilities.RedBlackBST;
 
+import static java.lang.Math.cos;
+import static java.lang.StrictMath.acos;
+
 public class RankOrderHuffman {
+
+    // chaotic pararms
+    public static double d = 5;
+    public static double w = 2.00;
+    public static double z1 = 0.4;
+    public static double z2 = 0.5;
+
 
     // alphabet size of extended ASCII
     private static final int R = 256;
     String filename = null;
     static String[] st = null;
+    static Double[] stt = null;
+    static Double[] stt2 = null;
     static Integer length = 0;
     //static Integer maxLevel= 25;
     static byte[] plainText = null;
@@ -34,6 +43,13 @@ public class RankOrderHuffman {
         ht1 = new RedBlackBST<>();
         Map1 = new HashMap<Integer,String>();
         Map2 = new HashMap<String, Integer>();
+    }
+    public  static double NthTerm (double w, double z, double d) {
+        // w >= 2
+        for(int i=0;i<d;i++) {
+            z = cos(w*acos(z));
+        }
+        return z;
     }
 
     // Huffman trie node
@@ -69,6 +85,7 @@ public class RankOrderHuffman {
     public static long compress(String filename) {
         // read the input
         String s = BinaryStdIn.readString();
+        //System.out.println(s);
         char[] input = s.toCharArray();
 
         // tabulate frequency counts
@@ -83,6 +100,8 @@ public class RankOrderHuffman {
         // build code table
 
         st = new String[R];
+        stt = new Double[R];
+        stt2 = new Double[R];
 
 
         buildCode(st, root, "");
@@ -104,14 +123,27 @@ public class RankOrderHuffman {
 			System.out.println("");
 			*/
 
-
+        // System.out.println(ht.toString());
+        // System.out.println("--------------------------------------");
+        // System.out.println(ht1.toString());
         for (int i = 0; i < R; i++) {
             if(freq[i] != 0) {
-                Element e = new Element(0, (char)i, st[i].length());
-                int rank = ht.rank(e);
+
+                Element e1 = new Element(0, (char)i, st[i].length(),stt[(char)i]);
+
+                int rank = ht.rank(e1);
+              //  System.out.println(stt[i] + " "+ rank);
                 Map1.put(rank,st[i]);
-                Map2.put(st[i],rank);
-                freq[i]= 0;
+
+                Element e2 = new Element(0, (char)i, st[i].length(),stt2[i]);
+                int rank2 = ht1.rank(e2);
+             //   System.out.println(stt[i] + " "+ rank);
+                Map2.put(st[i],rank2);
+                if (rank2 != rank) {
+                    //System.out.println(rank + " " + rank2);
+                }
+
+                freq[i] = 0;
             }
         }
 
@@ -124,7 +156,7 @@ public class RankOrderHuffman {
             //changes should be here for rank order Huffman tree.
             Integer c = freq[input[i]];
             Integer len = code.length();
-            Element e = new Element(c,input[i],len);
+            Element e = new Element(c,input[i],len, stt[input[i]]);
             //System.out.println(h.toString());
             Integer pos = ht.rank(e);
             code = Map1.get(pos);
@@ -197,13 +229,22 @@ public class RankOrderHuffman {
         }
         else {
             st[x.ch] = s;
+            // System.out.println(x.ch);
             ////////////////////////////////////
             ///extra for HEliOS
             ////////////////////////////////////
             Integer len = s.length();
-            Element e  = new Element(0,x.ch,len);
-            ht.put(e);
-            ht1.put(e); // for decoding
+
+            // now generate two different e1 and e2 and insert e1 in ht and e2 in ht2
+            z1 = NthTerm(w, z1, d);
+            z2 = NthTerm(w, z2, d);
+            stt[x.ch] = z1;
+            stt2[x.ch] = z2;
+            Element e1  = new Element(0,x.ch,len,stt[x.ch]);
+            Element e2  = new Element(0,x.ch,len,z2);
+
+            ht.put(e1);
+            ht1.put(e2); // for decoding
             //////////////////////////////
         }
     }
@@ -281,62 +322,70 @@ public class RankOrderHuffman {
         return t;
     }
     public static  void main(String[] args)  throws  IOException{
-        //String filetype = "office";
-        //String filetype = "video";
-        String filetype = "ebooks";
-        DropboxClient dropboxClient = new DropboxClient();
-        String dropboxDirectory = "/upload/";
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File("results-laptop-dropbox.csv"), true));
-        String directoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/";
-        String outputDirectoryAddress = "/Users/mazharul.islam/Documents/format-corpus/"+filetype+"/HEliOS/";
-        Files files = new Files(directoryAddress);
-        List<String> filesName = files.getFiles();
-        for(String fileName: filesName) {
-            try {
+        //String[] fileNames = {"emails", "ebooks", "office", "video", "audio"};
+        String[] fileNames = {"emails"};
+        try {
+            DropboxClient dropboxClient = new DropboxClient();
+            String dropboxDirectory = "/upload/";
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File("results-laptop-dropbox.csv"), true));
 
-                //String fileName = "dvcpro-hd-1080p30.mov";
+            for (String fileName : fileNames) {
+                String directoryAddress = "/Users/mazharul.islam/Dropbox/upload-backup/";
+                String outputDirectoryAddress = "/Users/mazharul.islam/Documents/format-corpus/" + fileName + "/HEliOS/";
                 String source = directoryAddress + fileName;
-
+                System.out.println(source);
                 String compressedFile = outputDirectoryAddress + fileName + ".helios";
                 String outFile = outputDirectoryAddress + fileName + ".helios.again.txt";
                 for (int i = 0; i < 1; i++) {
-                    System.out.println(source);
+                  //  System.out.println(source);
                     RankOrderHuffman helios = new RankOrderHuffman();
-                    double compressionTime = helios.compress(source, compressedFile); // upload
-                    double uploadTime = dropboxClient.HTTPUP(compressedFile, dropboxDirectory + fileName);
-                    double downloadTime = dropboxClient.HTTPUP(compressedFile, dropboxDirectory + fileName);
+               //    /*
+                    for(int j=0;j<1;j++) {
+                        double compressionTime = helios.compress(source, compressedFile);
+                    }
+                //    */
+                    /*
+                    for(int j=0;j<20;j++) {
+                        double uploadTime = dropboxClient.HTTPUP(compressedFile, dropboxDirectory + fileName+j);
+                    }
+                    */
+                   /*
+                    for(int j=0;j<20;j++) {
+                        double downloadTime = dropboxClient.HTTPDN(compressedFile, dropboxDirectory + fileName+j);
+                    }
+                //    */
+
+                //        /*
                     double decompressionTime = helios.deCompress(compressedFile, outFile); // download
 
-
+                    /*
                     dropboxClient.delete(dropboxDirectory + fileName);
 
                     double size = new File(source).length() / 1000.00;
                     //System.out.println(size);
-                    String line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-U," + compressionTime + "," + new File(source).length() + ",HEliOS compression," + filetype+"\n";
+                    String line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-U," + compressionTime + "," + new File(source).length() + ",HEliOS compression," + fileName + "\n";
                     bos.write(line.getBytes());
                     System.out.print(line);
-                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-D," + decompressionTime + "," + new File(source).length() + ",HEliOS decompression," + filetype+"\n";
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-D," + decompressionTime + "," + new File(source).length() + ",HEliOS decompression," + fileName + "\n";
                     bos.write(line.getBytes());
                     System.out.print(line);
-                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-CS," + new File(compressedFile).length() + "," + new File(source).length() + ",HEliOS scale," + filetype+"\n";
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-CS," + new File(compressedFile).length() + "," + new File(source).length() + ",HEliOS scale," + fileName + "\n";
                     bos.write(line.getBytes());
                     System.out.print(line);
-                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-U," + uploadTime + "," + new File(source).length() + ",HEliOS upload," + filetype+"\n";
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-U," + uploadTime + "," + new File(source).length() + ",HEliOS upload," + fileName + "\n";
                     bos.write(line.getBytes());
                     System.out.print(line);
-                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-D," + downloadTime + "," + new File(source).length() + ",HEliOS download," + filetype+"\n";
+                    line = fileName + " (" + Math.round(size) + "KB)," + "HEliOS-D," + downloadTime + "," + new File(source).length() + ",HEliOS download," + fileName + "\n";
                     bos.write(line.getBytes());
                     System.out.print(line);
+
+                     */
                 }
                 //break;
-
-
-            } catch (Exception ex) {
-                System.err.println("Exception " + fileName);
-                ex.printStackTrace();
             }
+            bos.close();
+        } catch (Exception ex) {
+                ex.printStackTrace();
         }
-        bos.close();
-
     }
 }
